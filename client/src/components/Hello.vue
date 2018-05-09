@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="root">
     <h1>{{ msg }}</h1>
 
 
@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'hello',
+  name: 'root',
   data () {
     return {
       msg: 'Welcome to Your Vue.js PWA'

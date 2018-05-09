@@ -1,14 +1,18 @@
 <template>
   <div id="app">
+    <v-app>
     <header>
       <PageHeader>
         
       </PageHeader>
     </header>
     <main>
-      
+      <v-container fluid>
       <router-view></router-view>
+
+      </v-container>
     </main>
+    </v-app>
   </div>
 </template>
 
