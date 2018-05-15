@@ -8,22 +8,34 @@
      </v-toolbar>
 <form name="register-form" autocomplete="off">
   <div class="pl-4 pr-4 pt-2 pb-2">
+  <v-text-field
+           label="User name"
+           name="username"
+           v-model="username"
+            id="username"
+           >
+    </v-text-field> 
     <v-text-field
            label="Email"
            name="Email"
            v-model="email"
             id="email"
            >
-    </v-text-field>   
+    </v-text-field>
+    <v-flex xs8>   
     <v-text-field
-           label="Password"
-           type="password"
-           name="password"
-           v-model="password"
-           autocomplete="new-password"
-            id="password"
+          v-model="password"
+          :append-icon="e1 ? 'visibility' : 'visibility_off'"
+          :append-icon-cb="() => (e1 = !e1)"
+          :type="e1 ? 'password' : 'text'"
+          name="password"
+          label="Enter your password"
+          hint="At least 8 characters"
+          min="8"
+          counter
             >
     </v-text-field>
+    </v-flex>
         <br>
     <div class="error" v-html="error"/>
     <br>
@@ -42,8 +54,10 @@ export default {
   name: 'register',
   data () {
     return {
+       e1: false,
        email: '',
        password: '',
+       username: '',
        error: null
     
     }
@@ -53,7 +67,8 @@ export default {
     try {
      const response = await  AuthenticationService.register({
         email: this.email,
-        password: this.password
+        password: this.password,
+        username: this.username
       });
       this.$store.dispatch('setToken', response.data.token)
       this.$store.dispatch('setUser', response.data.user)
@@ -80,6 +95,6 @@ a {
 }
 
 .error {
-  color: red;
+  color: orange;
 }
 </style>

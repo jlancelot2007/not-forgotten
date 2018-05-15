@@ -6,10 +6,16 @@
     </span>
 </v-toolbar-title>
 <v-toolbar-items >
-    <v-btn flat dark @click="navigateTo({name: 'posts'})">
+    <v-btn flat dark @click="navigateTo({name: 'tributes'})">
         Memorials
     </v-btn>
 </v-toolbar-items>
+<v-toolbar-items >
+    <v-btn flat dark @click="navigateTo({name: 'songs'})">
+        Songs
+    </v-btn>
+</v-toolbar-items>
+
 <v-spacer></v-spacer>
 <v-toolbar-items >
     <v-btn flat dark 
@@ -33,7 +39,7 @@
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
 export default {
-  name: 'header',
+  name: 'pageheader',
 methods: {
    navigateTo (route) {
        this.$router.push(route);

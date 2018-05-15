@@ -17,12 +17,16 @@
            >
     </v-text-field>   
     <v-text-field
-           label="Password"
-           type="password"
-           name="password"
-           v-model="password"
+          v-model="password"
+          :append-icon="e1 ? 'visibility' : 'visibility_off'"
+          :append-icon-cb="() => (e1 = !e1)"
+          :type="e1 ? 'password' : 'text'"
+          name="password"
+          label="Enter your password"
+          min="8"
+          counter
            autocomplete="new-password"
-            id="password"
+          id="password"
             >
     </v-text-field>
         <br>
@@ -43,6 +47,7 @@ export default {
   name: 'login',
   data () {
     return {
+       e1: false,
        email: '',
        password: '',
        error: null

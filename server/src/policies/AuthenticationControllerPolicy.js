@@ -5,9 +5,11 @@ module.exports = {
       const schema = {
           email: Joi.string().email(),
           password: Joi.string().regex(
-              new RegExp('^[a-zA-Z0-9]{8,32}$')
-          )
+              new RegExp('^[a-zA-Z0-9]{8,32}$')),
+          username: Joi.string()
+          
       }
+      
       const {error, value} = Joi.validate(req.body, schema);
       if (error) {
          switch (error.details[0].context.key) {
@@ -25,6 +27,11 @@ module.exports = {
                       2. It must be at least 8 characters in length and not longer than 32 characters`
                    });
                      break;
+           case 'username':
+                  res.status(400).send({
+                     error: "You must provide a username"
+                  });
+                  break;   
              default:
                   res.status(400).send({
                       error: "Invalid registration information"
@@ -37,3 +44,4 @@ module.exports = {
       }
     }
 }
+

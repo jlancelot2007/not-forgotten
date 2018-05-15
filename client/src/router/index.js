@@ -3,8 +3,9 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
-import Posts from '@/components/Posts'
-
+import Tributes from '@/components/Tributes'
+import Songs from '@/components/Songs'
+import CreateSong from '@/components/CreateSong'
 Vue.use(Router)
 
 export default new Router({
@@ -25,10 +26,21 @@ export default new Router({
       component: Login
     },
     {
-      path: '/posts',
-      name: 'posts',
-      component: Posts
+      path: '/tributes',
+      name: 'tributes',
+      component: Tributes
+    },
+    {
+      path: '/songs',
+      name: 'songs',
+      component: Songs
+    },
+    {
+      path: '/songs-create',
+      name: 'songs-create',
+      component: CreateSong
     }
+ 
 
   ]
 })
