@@ -1,6 +1,6 @@
 <template>
 <v-layout >
-  <v-flex xs10 offset-xs2>
+  <v-flex xs8 offset-xs2>
 <panel  title="Songs">
  <router-link slot="action"
  :to="{name: 'songs-create'}">
@@ -15,10 +15,26 @@
 
  <div slot="myslot" v-for="song in songs"
       :key="song.id">
-        {{song.title}} 
-        {{song.artist}} 
-        {{song.album}}
+
+  <v-layout>
+  <v-flex xs6>
+    <div class="song-title">
+{{song.title}} 
+    </div>
+        <div class="song-artist">
+ {{song.artist}}  
+    </div>
+        <div class="song-genre">
+ {{song.genre}}
+    </div>
+  </v-flex>
+<v-flex xs6>
+
+</v-flex>
+   </v-layout>
   </div>
+
+
 </panel>
   </v-flex>
 </v-layout>

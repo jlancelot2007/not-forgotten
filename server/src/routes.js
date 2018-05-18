@@ -1,9 +1,9 @@
 const AuthenticationController = require('./controllers/AuthenticationController');
 const  AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy');
-const TributeController = require('./controllers/TributeController');
-const CommentController = require('./controllers/CommentController');
-const AccidentController = require('./controllers/AccidentController');
-const SongController = require('./controllers/SongController');
+const TributesController = require('./controllers/TributesController');
+const CommentsController = require('./controllers/CommentsController');
+const AccidentsController = require('./controllers/AccidentsController');
+const SongsController = require('./controllers/SongsController');
 
 module.exports = (app) => {
     app.post("/register", 
@@ -14,22 +14,22 @@ module.exports = (app) => {
        AuthenticationController.login),
 
     app.get("/accidents", 
-       AccidentController.index),
+       AccidentsController.index),
    app.post("/accident", 
-       AccidentController.post),
+       AccidentsController.post),
         
     app.get("/tributes", 
-       TributeController.index),
- // app.post("/tribute", 
-  //     TributeController.post),
+       TributesController.index),
+  app.post("/tribute", 
+      TributesController.post),
         
   app.get("/comments", 
-      CommentController.index),
-  //  app.post("/comment", 
-  //     CommentController.post),
+      CommentsController.index),
+    app.post("/comment", 
+     CommentsController.post),
 
    app.get("/songs", 
-       SongController.index),
+       SongsController.index),
     app.post("/song", 
-        SongController.post)
+        SongsController.post)
 }

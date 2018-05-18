@@ -11,12 +11,16 @@
            label="Song Title"
            name="Title"
            v-model="song.title"
+            required
+           :rules="[required]"
             id="Title" >
 </v-text-field> 
 <v-text-field
            label="Artist"
            name="Artist"
            v-model="song.artist"
+            required
+           :rules="[required]"
             id="Artist" >
 </v-text-field> 
 <v-text-field
@@ -24,24 +28,33 @@
            name="Genre"
            v-model="song.genre"
            hint="e.g. ballad, orchestral, rock"
+            required
+           :rules="[required]"
             id="Genre" >
 </v-text-field> 
 <v-text-field
            label="Album"
            name="Album"
            v-model="song.album"
+            required
+           :rules="[required]"
             id="Album" >
 </v-text-field> 
 <v-text-field
            label="AlbumImage"
            name="Album Image"
            v-model="song.albumImage"
+            required
+           :rules="[required]"
             id="AlbumImage" >
 </v-text-field> 
 <v-text-field
            label="youtubeId"
            name="Youtube Id"
            v-model="song.youtubeId"
+            required
+           :rules="[required]"
+
             id="youtubeId" >
   </v-text-field>
 </v-card>
@@ -53,11 +66,14 @@
       </v-toolbar>
    
 <v-card>
+
   <v-text-field
            label="Tab ID"
            name="tab"
            multi-line
            v-model="song.tab"
+            required
+           :rules="[required]"
             id="tab" >
   </v-text-field> 
   <v-text-field
@@ -65,9 +81,15 @@
            multi-line
            name="lyrics"
            v-model="song.lyrics"
+            required
+           :rules="[required]"
             id="lyrics" >
   </v-text-field>
+ 
 </v-card>
+<div class="danger-alert" v-if="error">
+ {{error}}
+</div>
        <v-btn @click="create">Create Song</v-btn>
    
   </v-flex>
@@ -89,22 +111,33 @@ export default {
        youtubeId: null,
        lyrics: null,
        tab: null
+           },
+        error: null,
+        required: (value) => !!value || 'Required'
+           
        }
-    }
-  },
+
+
+   },
   methods: {
-    async create ()
-   {  
+    async create () {
+      this.error = null
+           const areAllFieldsFilledIn = Object
+        .keys(this.song)
+        .every(key => !!this.song[key])
+        if (!areAllFieldsFilledIn) {
+          this.error = "Please fill in all the required fields"
+          return
+        
+        }
      try {
-       console.log(this.song)
-           await SongsService.post(this.song);
-     this.$router.push({
+      await SongsService.post(this.song);
+      this.$router.push({
        name: 'songs'
      })
    }  catch (err) {
      console.log(err)
    }
-     
     }
   },
     components: { 
@@ -115,6 +148,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.danger-alert {
+  color: red;
+}
+
 h1, h2 {
   font-weight: normal;
 }

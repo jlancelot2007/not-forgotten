@@ -7,6 +7,7 @@
           @place_changed="setPlace">
         </gmap-autocomplete>
         <button @click="addMarker">Add</button>
+<v-btn color="info">Info</v-btn>
       </label>
       <br/>
 
@@ -19,7 +20,7 @@
     >
       <gmap-marker
         :key="index"
-        v-for="(m, index) in markers"
+        v-for="(m, index) in this.markers"
         :position="m.position"
         @click="center=m.position"
       ></gmap-marker>
@@ -28,21 +29,33 @@
 </template>
 
 <script>
+import AccidentsService from '@/services/AccidentsService'
+
 export default {
-  
+
   data() {
     return {
-      // default to Montreal to keep it simple
-      // change this to whatever makes sense
-      center: { lat: 45.508, lng: -73.587 },
+     // center: { lat: this.latitude, lng: this.longitude },
+     center: { lat: 51.55286, lng: 0.71598 },
       markers: [],
       places: [],
       currentPlace: null
-    };
+    }
   },
 
-  mounted() {
+  async mounted() {
     this.geolocate();
+    
+    this.markers  = (await AccidentsService.index()).data;
+   console.log(this.markers)
+       var  i;
+    for (i = 0; i < this.markers.length; i++) {    
+      this.marker = new google.maps.Marker({  
+        position: new google.maps.LatLng(this.markers[i].lat, this.markers[i].lng),
+        map: map
+      });
+
+  }
   },
 
   methods: {
@@ -51,25 +64,28 @@ export default {
       this.currentPlace = place;
     },
     addMarker() {
-      if (this.currentPlace) {
+      if (this.markers[i]) {
         const marker = {
-          lat: this.currentPlace.geometry.location.lat(),
-          lng: this.currentPlace.geometry.location.lng()
+          lat: this.markers[i].lat().data,
+          lng: this.markers[i].lng().data
         };
-        this.markers.push({ position: marker });
+        this.markers[i].push({ position: marker });
         this.places.push(this.currentPlace);
-        this.center = marker;
-        this.currentPlace = null;
+      //  this.center = marker;
+      //  this.currentPlace = null;
       }
     },
-    geolocate: function() {
+
+    geolocate() {
       navigator.geolocation.getCurrentPosition(position => {
         this.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
+         // lat: position.coords.latitude,
+         // lng: position.coords.longitude
+         lat: 51.55286,
+         lng: 0.71598
         };
       });
     }
   }
-};
+}
 </script>
