@@ -29,7 +29,11 @@ module.exports = (app) => {
      CommentsController.post),
 
    app.get("/songs", 
-       SongsController.index),
+       SongsController.index),  
+       
+  app.get("/songs/:songId", 
+       SongsController.show),
+
     app.post("/song", 
         SongsController.post)
 }

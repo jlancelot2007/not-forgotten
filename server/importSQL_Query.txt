@@ -1,5 +1,2 @@
 INSERT INTO accidents (id, accIndex, Easting, Northing, lng, lat, severity, numcas, accdate, acctime, createdAt, updatedAt ) 
-SELECT id, accIndex, Easting, Northing, lng, lat, severity, numcas, accidentdate, acctime, Date(), Date() from accidents2016
-
-INSERT INTO accidents (id, accIndex, Easting, Northing, lng, lat, severity, numcas, accdate, acctime, createdAt, updatedAt ) 
-SELECT id, accIndex, Easting, Northing, lng, lat, severity, numcas, accidentdate, acctime, Date(), Date() from accidents2016C
+SELECT id, accIndex, Easting, Northing, lng, lat, severity, numcas, accdate, acctime, Date(), Date() from accidents2016

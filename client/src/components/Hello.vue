@@ -6,25 +6,21 @@
         <gmap-autocomplete
           @place_changed="setPlace">
         </gmap-autocomplete>
-        <button @click="addMarker">Add</button>
-<v-btn color="info">Info</v-btn>
+        <button >Add</button>
       </label>
       <br/>
 
     </div>
     <br>
-    <gmap-map
+    <div
+    class="google-map"
       :center="center"
       :zoom="12"
+      :id="mapName"
       style="width:100%;  height: 400px;"
     >
-      <gmap-marker
-        :key="index"
-        v-for="(m, index) in this.markers"
-        :position="m.position"
-        @click="center=m.position"
-      ></gmap-marker>
-    </gmap-map>
+    </div>
+
   </div>
 </template>
 
@@ -32,53 +28,40 @@
 import AccidentsService from '@/services/AccidentsService'
 
 export default {
-
+name: 'google-map',
+props: ['name'],
   data() {
     return {
+      mapName: this.name + "-map",
      // center: { lat: this.latitude, lng: this.longitude },
      center: { lat: 51.55286, lng: 0.71598 },
-      markers: [],
-      places: [],
-      currentPlace: null
+     markers: [],
+      place: [],
+     
+      map: null
     }
   },
-
   async mounted() {
-    this.geolocate();
-    
+    const element = document.getElementById(this.mapName)
+    const options = {
+      center: new google.maps.LatLng(51.55286,0.71598 )
+    }
+   // this.geolocate();
+  this.map = new google.maps.Map(element, options)
     this.markers  = (await AccidentsService.index()).data;
-   console.log(this.markers)
-       var  i;
-    for (i = 0; i < this.markers.length; i++) {    
-      this.marker = new google.maps.Marker({  
-        position: new google.maps.LatLng(this.markers[i].lat, this.markers[i].lng),
-        map: map
-      });
-
-  }
-  },
+console.log(this.markers)
+},
 
   methods: {
     // receives a place object via the autocomplete component
-    setPlace(place) {
+      setPlace(place) {
       this.currentPlace = place;
     },
-    addMarker() {
-      if (this.markers[i]) {
-        const marker = {
-          lat: this.markers[i].lat().data,
-          lng: this.markers[i].lng().data
-        };
-        this.markers[i].push({ position: marker });
-        this.places.push(this.currentPlace);
-      //  this.center = marker;
-      //  this.currentPlace = null;
-      }
-    },
+  },
 
     geolocate() {
       navigator.geolocation.getCurrentPosition(position => {
-        this.center = {
+         this.center = {
          // lat: position.coords.latitude,
          // lng: position.coords.longitude
          lat: 51.55286,
@@ -86,6 +69,5 @@ export default {
         };
       });
     }
-  }
 }
 </script>
