@@ -3,10 +3,10 @@
     <v-app>
       <Page-Header>  
       </Page-Header>
+    
     <main>
       <v-container fluid>
       <router-view></router-view>
-     
       </v-container>
     </main>
     </v-app>
@@ -16,10 +16,12 @@
 <script>
 import PageHeader from '@/components/PageHeader.vue';
 
+
 export default {
   name: 'app',
   components: {
     PageHeader
+    
   }
 }
 </script>

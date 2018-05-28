@@ -8,9 +8,10 @@ import {sync} from 'vuex-router-sync'
 import 'vuetify/dist/vuetify.min.css'
 import store from '@/store/store'
 import * as VueGoogleMaps from "vue2-google-maps";
+import VueYouTubeEmbed from 'vue-youtube-embed'
 
 Vue.use(VueGoogleMaps, {
-  load: {
+   load: {
     key: "AIzaSyBYL8cUz642HwLtdzdamXdwLFjGFAa4sP0",
     libraries: "places" // necessary for places input
   }
@@ -18,7 +19,7 @@ Vue.use(VueGoogleMaps, {
 Vue.config.productionTip = false
 
 Vue.use(Vuetify)
-
+Vue.use(VueYouTubeEmbed)
 sync(store, router)
 /* eslint-disable no-new */
 new Vue({
