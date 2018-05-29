@@ -6,7 +6,7 @@
         <gmap-autocomplete
           @place_changed="setPlace">
         </gmap-autocomplete>
-        <button @click="addMarker">Add</button>
+        <button @click="usePlace">Go</button>
       </label>
       <br/>
     </div>
@@ -17,12 +17,24 @@
       style="width:100%;  height: 400px;"
     >
 
-      <gmap-marker
-        :key="index"
+      <gmap-marker 
         v-for="(m, index) in markers"
-        :position="m.position"
+        :key="index"
++       :position="getPosition(m)"
         @click="center=m.position"
+        icon= "../static/img/icons/PushPin_Left_black.png"
+
+        :clickable="true"
+        :draggable="true"
+        @mouseover="statusText = m.text"
+        @mouseout="statusText = null"
       ></gmap-marker>
+
+      <div slot="visible">
+        <div style="bottom: 0; left: 0; background-color: #0000FF; color: white; position: absolute; z-index: 100">
+          {{statusText}}
+        </div>
+      </div>
     </gmap-map>
   </div>
 </template>
@@ -34,38 +46,70 @@ export default {
   name: "GoogleMap",
   data() {
     return {
-      // default to Montreal to keep it simple
+    
       // change this to whatever makes sense
-      center: { lat: 45.508, lng: -73.587 },
-      markers: [],
-      places: [],
-      currentPlace: null
+      center: {lat: 51.145, lng: -0.1234} ,
+      statusText: '',
+      markers: [{
+            position: [51.555066,
+               0.691532],
+              text: "hello there"
+            }, {
+            position: 
+              [51.565066,
+               0.697532],
+              text: "Wromg place"
+          }],
+          accidents: [],
+   //   places: [],
+  //    marker: {},
+      place: null
     };
   },
-
       async mounted () {
-      //markers = (await AccidentsService.index()).data
+      this.markers = (await AccidentsService.index()).data
+    //  console.log(accidents)
      // this.geolocate();
-    
+   
   },
-
   methods: {
     // receives a place object via the autocomplete component
     setPlace(place) {
-      this.currentPlace = place;
+      this.Place = place; 
     },
-    addMarker() {
-      if (this.currentPlace) {
-        const marker = {
-          lat: this.currentPlace.geometry.location.lat(),
-          lng: this.currentPlace.geometry.location.lng()
-        };
-      //  this.markers = (AccidentsService.index()).data
-     //     console.log(markers)
-        this.markers.push({ position: marker });
-        this.places.push(this.currentPlace);
-        this.center = marker;
-        this.currentPlace = null;
+        getPosition: function(marker) {
+          return {
+        lat: parseFloat(marker.lat),
+        lng: parseFloat(marker.lng)
+      }
+    },
+        usePlace(place) {
+      if (place) {
+
+        this.markers.push(place);
+        
+        for (var i = 0; i < this.accidents.length; i++) {
+           if (this.accidents[i]) {
+             this.markers.push({
+               position: {
+                 lat: this.accidents[i].lat,
+                 lng: this.accidents[i].lng
+               }
+             })
+           }
+}
+          this.place = null;
+          console.log(this.markers)
+      }
+    },
+    toggleInfo: function(marker, key) {
+      this.infoPosition = this.getPosition(marker);
+      this.infoContent = marker.full_name;
+      if (this.infoCurrentKey == key) {
+        this.infoOpened = !this.infoOpened;
+      } else {
+        this.infoOpened = true;
+        this.infoCurrentKey = key;
       }
     },
     geolocate: function() {
@@ -75,25 +119,7 @@ export default {
           lng: position.coords.longitude
         };
       });
-    },
-    getMarkers: function() {
-      var newMarkers = this.markers.map(function (markers = (AccidentsService.index()).data) { //Map over the markers
-      for (i = 0; i < this.markers.length; i++) { // loop over the markers
-           if (this.markers.indexOf(marker) != this.markers[i]) { // Make sure we don't compare the marker to itself
-               if(Object.is(marker.position, this.markers[i].position)) { //compare the position on the marker
-                   return { // if the position on the markers match, build a new marker adding 2
-                               position: {
-                                   lat: marker.position.lat+2,
-                                   lng: marker.position.lat+2,
-                               },
-                               infoText: marker.infoText
-                      }
-                 }
-                        }
-                    }
-                      return marker;
-                });
     }
   }
-};
+}
 </script>

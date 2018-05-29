@@ -82,9 +82,10 @@
   <v-tab-item>
     <v-card flat >
     <v-card-text>
-        <youtube :video-id="song.youtubeId"
-        :player-width="500"
-        player-height="230"></youtube>
+        <youtube :video-Id="song.youtubeId"
+        origin='https://youtube.com'
+        player-width="500"
+        player-height="320"></youtube>
     </v-card-text>
     </v-card>
   </v-tab-item>

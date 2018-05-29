@@ -35,5 +35,8 @@ module.exports = (app) => {
        SongsController.show),
 
     app.post("/song", 
-        SongsController.post)
+        SongsController.post),
+
+    app.put("/songs/:songId", 
+        SongsController.put)
 }
