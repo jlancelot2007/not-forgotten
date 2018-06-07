@@ -1,11 +1,20 @@
 const {Accident} = require('../models')
+const {Tribute} = require('../models')
 
+
+//Tribute.belongsTo(Accident)
+//Accident.hasMany(Tribute)
+
+              //   where: {  severity: req.params.severity,
+               //            year: { [Op.in]: [YEAR([req.params.accdate])]
+               //          }
 module.exports = {
 
     async index (req, res) {
         try {
              const accidents = await Accident.findAll({
-                 limit: 100
+                 limit: 500,
+                 raw: true
              })
         console.log(accidents)
              res.send(accidents);

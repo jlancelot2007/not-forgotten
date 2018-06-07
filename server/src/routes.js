@@ -4,6 +4,7 @@ const TributesController = require('./controllers/TributesController');
 const CommentsController = require('./controllers/CommentsController');
 const AccidentsController = require('./controllers/AccidentsController');
 const SongsController = require('./controllers/SongsController');
+const BookmarksController = require('./controllers/BookmarksController');
 
 module.exports = (app) => {
     app.post("/register", 
@@ -31,7 +32,7 @@ module.exports = (app) => {
    app.get("/songs", 
        SongsController.index),  
        
-  app.get("/songs/:songId", 
+    app.get("/songs/:songId", 
        SongsController.show),
 
     app.post("/song", 
@@ -39,4 +40,7 @@ module.exports = (app) => {
 
     app.put("/songs/:songId", 
         SongsController.put)
+
+    app.get("/bookmarks", 
+        BookmarksController.index)
 }

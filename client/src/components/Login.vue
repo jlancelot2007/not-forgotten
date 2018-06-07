@@ -30,7 +30,7 @@
             >
     </v-text-field>
         <br>
-    <div class="error" v-html="error"/>
+    <div class="danger-alert" v-html="error"/>
     <br>
         <v-btn @click="login">Login</v-btn>
  </div>
@@ -63,7 +63,9 @@ export default {
       });
       this.$store.dispatch('setToken', response.data.token)
       this.$store.dispatch('setUser', response.data.user)
-      
+      this.$router.push({
+        name: 'songs'
+      })
       console.log("Logged in success");
       } catch (error) {
         this.error = error.response.data.error;
@@ -87,7 +89,7 @@ a {
   color: #35495E;
 }
 
-.error {
+.danger-alert {
   color: red;
 }
 </style>

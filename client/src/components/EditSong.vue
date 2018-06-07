@@ -128,9 +128,9 @@ export default {
           return  
         }
 
-const songId = this.$store.state.route.params.songId
+       const songId = this.$store.state.route.params.songId
         try {
-        await SongsService.put(songId)
+        await SongsService.put(this.song)
         this.$router.push({
           name: 'song',
           params: {

@@ -1,17 +1,17 @@
 <template>
 <v-toolbar fixed class="cyan" dark>
 <v-toolbar-title class="mr-4">
-    <span class="home" @click="navigateTo({name: 'root'})">
+    <router-link class="home" tag="span" :to="{name: 'root'}">
        Not Forgotten
-    </span>
+    </router-link>
 </v-toolbar-title>
 <v-toolbar-items >
-    <v-btn flat dark @click="navigateTo({name: 'tributes'})">
+    <v-btn flat dark :to="{name: 'tributes'}">
         Memorials
     </v-btn>
 </v-toolbar-items>
 <v-toolbar-items >
-    <v-btn flat dark @click="navigateTo({name: 'songs'})">
+    <v-btn flat dark :to="{name: 'songs'}">
         Songs
     </v-btn>
 </v-toolbar-items>
@@ -19,11 +19,11 @@
 <v-spacer></v-spacer>
 <v-toolbar-items >
     <v-btn flat dark 
-    @click="navigateTo({name: 'login'})" v-if="!$store.state.isUserLoggedIn">
+    :to="{name: 'login'}" v-if="!$store.state.isUserLoggedIn">
       Login
     </v-btn>
     <v-btn flat dark 
-    @click="navigateTo({name: 'register'})" v-if="!$store.state.isUserLoggedIn">
+    :to="{name: 'register'}" v-if="!$store.state.isUserLoggedIn">
       Sign Up
     </v-btn>
     <v-btn flat dark 
@@ -41,9 +41,6 @@ import AuthenticationService from '@/services/AuthenticationService'
 export default {
   name: 'pageheader',
 methods: {
-   navigateTo (route) {
-       this.$router.push(route);
-   },
    logout (){
      this.$store.dispatch('setToken', null);
      this.$store.dispatch('setUser', null);

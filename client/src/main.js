@@ -8,7 +8,9 @@ import {sync} from 'vuex-router-sync'
 import 'vuetify/dist/vuetify.min.css'
 import store from '@/store/store'
 import * as VueGoogleMaps from "vue2-google-maps";
-import VueYouTubeEmbed from 'vue-youtube-embed'
+import VueYouTube from 'vue-youtube'
+
+import lodash from 'lodash';    
 
 Vue.use(VueGoogleMaps, {
    load: {
@@ -19,8 +21,9 @@ Vue.use(VueGoogleMaps, {
 Vue.config.productionTip = false
 
 Vue.use(Vuetify)
-Vue.use(VueYouTubeEmbed)
+Vue.use(VueYouTube)
 sync(store, router)
+Object.defineProperty(Vue.prototype, '$lodash', { value: lodash });
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

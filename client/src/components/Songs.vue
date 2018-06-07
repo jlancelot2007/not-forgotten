@@ -1,21 +1,23 @@
 <template>
-<v-layout >
-  <v-flex xs8 offset-xs2>
-<panel  title="Songs">
+<v-layout>
+<v-flex xs12 sm6 offset-sm3 >
+<div >
+<panel  title="Songs" >
  <router-link slot="action"
  :to="{name: 'songs-create'}">
+         <div class="text-xs-center" >
+
    <v-btn 
    class="cyan accent-2"
     dark absolute medium 
     right middle fab>
       <v-icon >add</v-icon>
     </v-btn>
+
+  </div>
   </router-link>
-
-
  <div class="song" slot="myslot" v-for="song in songs"
-      :key="song.id">
-
+      :key="song.id" >
   <v-layout>
   <v-flex xs6>
     <div class="song-title" >
@@ -28,38 +30,51 @@
  {{song.genre}}
     </div>
     <v-btn dark class="cyan"
-    @click="navigateTo({name: 'song', params: {songId: song.id}})">View Song</v-btn>
+    :to="{name: 'song', params: {songId: song.id}}">View Song</v-btn>
   </v-flex>
 <v-flex xs6>
-<img  class="album-image" :src="song.albumImage" alternate="Nothing"/>
+<img  class="album-image" :src="song.albumImage" 
+       :to="{name: 'song', params: {songId: song.id}}"
+      alternate="https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg"/>
 </v-flex>
    </v-layout>
   </div>
 </panel>
-  </v-flex>
+
+ </div> 
+ </v-flex>
 </v-layout>
 </template>
 <script>
 import SongsService from '@/services/SongsService'
 import Panel from '@/components/Panel'
-
+//import SearchSong from '@/components/ViewSong/SearchSong'
 export default {
 components: { 
-  Panel
+  Panel//,
+ // SearchSong
   }, 
   data () {
     return {
-      songs: null
+      songs: null,
+      page: 1
     }
   },
-  async mounted () {
-   this.songs = (await SongsService.index()).data
+  Props: {
+    search: null
   },
   methods: {
-    navigateTo (route) {
-      this.$router.push(route)
-    }
+    
+  },
+watch: {
+  '$route.query.search': {
+      immediate: true,
+     async handler (value) {
+       this.songs = (await SongsService.index(value)).data
+  
+      }
   }
+}
 }
 </script>
 

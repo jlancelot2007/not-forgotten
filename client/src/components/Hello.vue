@@ -1,42 +1,106 @@
 <template>
-  <div>
-    <div>
-      <h2>Search and add a pin</h2>
-      <label>
-        <gmap-autocomplete
-          @place_changed="setPlace">
-        </gmap-autocomplete>
-        <button @click="usePlace">Go</button>
-      </label>
-      <br/>
-    </div>
-    <br>
-    <gmap-map
+  <v-layout>
+  <v-flex xs12>  
+<v-tabs xs12 sm12
+  color="cyan"
+  dark
+  slider-color="yellow"
+  grow
+>
+  <v-tab ripple >
+    Selectors
+  </v-tab>
+  <v-tab ripple>
+    Map
+  </v-tab>
+   <v-tab ripple>
+      Memorials
+  </v-tab>
+  <v-tab ripple>
+    Location Street View
+  </v-tab>
+  <v-tab-item>
+    <v-card flat >
+<div id="app">
+    <v-card class="grey lighten-4 elevation-0">
+      <v-card-text>
+        <v-container fluid>
+          <v-layout row wrap>
+            <v-flex xs12 sm3>
+            </v-flex>
+
+            <v-flex xs12 sm6>
+              <v-layout row wrap>
+              <v-flex xs12 sm12>
+              <h2>Search and add a pin</h2>
+              <label>
+              <gmap-autocomplete
+              @place_changed="setPlace">
+              </gmap-autocomplete>
+              <button @click="usePlace">Go</button>
+               </label>
+               </v-flex>
+                <v-flex xs12 sm12>
+                  <v-radio-group  :mandatory="false" label="Severity">
+                    <v-radio label="Fatal" value="1"></v-radio>
+                    <v-radio label="Severe Injury" value="2"></v-radio>
+                  </v-radio-group>
+                </v-flex>
+                <v-flex xs12 sm12>
+                  <v-select v-bind:items="years" v-model="a1" label="Years"
+                   autocomplete multiple chips></v-select>
+                </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex xs12 sm3>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-text>
+    </v-card>
+  
+</div>
+    </v-card>
+  </v-tab-item>
+  <v-tab-item>
+    <v-card flat>
+ <gmap-map
       :center="center"
       :zoom="12"
       style="width:100%;  height: 400px;"
     >
-
-      <gmap-marker 
+   <gmap-marker 
         v-for="(m, index) in markers"
         :key="index"
 +       :position="getPosition(m)"
         @click="center=m.position"
-        icon= "../static/img/icons/PushPin_Left_black.png"
-
+        icon= "../static/img/icons/PushPin_Left_red.png"
         :clickable="true"
         :draggable="true"
         @mouseover="statusText = m.text"
         @mouseout="statusText = null"
       ></gmap-marker>
-
       <div slot="visible">
         <div style="bottom: 0; left: 0; background-color: #0000FF; color: white; position: absolute; z-index: 100">
           {{statusText}}
         </div>
       </div>
     </gmap-map>
-  </div>
+    </v-card>
+  </v-tab-item>  
+    <v-tab-item>
+    <v-card flat>
+      <v-card-text>Memorials</v-card-text>
+    </v-card>
+  </v-tab-item>
+  <v-tab-item>
+    <v-card flat>
+      <v-card-text>Contents for Item 4 go here</v-card-text>
+    </v-card>
+  </v-tab-item> 
+</v-tabs>
+</v-flex>
+</v-layout> 
 </template>
 
 <script>
@@ -44,11 +108,34 @@ import AccidentsService from '@/services/AccidentsService'
 
 export default {
   name: "GoogleMap",
+props: {
+        menu: false,
+      ex1: false,
+},
+           
   data() {
     return {
-    
+     a1: [],
+      years: [ 
+        "2001",
+        "2002",
+        "2003",
+        "2004",
+        "2005",
+        "2006",
+        "2007",
+        "2008",
+        "2009",
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+      ],  
       // change this to whatever makes sense
-      center: {lat: 51.145, lng: -0.1234} ,
+      center: {lat: 52.145, lng: -0.1234} ,
       statusText: '',
       markers: [{
             position: [51.555066,
@@ -61,16 +148,17 @@ export default {
               text: "Wromg place"
           }],
           accidents: [],
-   //   places: [],
-  //    marker: {},
-      place: null
+      place: null,
+      
     };
   },
       async mounted () {
       this.markers = (await AccidentsService.index()).data
-    //  console.log(accidents)
-     // this.geolocate();
-   
+
+      var pins = []
+     pins[0] = "../static/img/icons/PushPin_Left_black.png"
+     pins[1] = "../static/img/icons/PushPin_Left_red.png"
+     pins[2] = "../static/img/icons/PushPin_Left_white.png"
   },
   methods: {
     // receives a place object via the autocomplete component
@@ -123,3 +211,6 @@ export default {
   }
 }
 </script>
+<style>
+</style>
+
