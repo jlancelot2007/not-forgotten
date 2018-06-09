@@ -1,23 +1,24 @@
 <template>
 <v-layout>
-<v-flex xs12 sm6 offset-sm3 >
-<div >
-<panel  title="Songs" >
+    <v-flex xs12 sm12  >
+      <div>
+       <search-song></search-song>
+      </div>
+<panel  title="Songs">
  <router-link slot="action"
  :to="{name: 'songs-create'}">
-         <div class="text-xs-center" >
-
    <v-btn 
    class="cyan accent-2"
     dark absolute medium 
     right middle fab>
       <v-icon >add</v-icon>
     </v-btn>
-
-  </div>
   </router-link>
+
+
  <div class="song" slot="myslot" v-for="song in songs"
-      :key="song.id" >
+      :key="song.id">
+
   <v-layout>
   <v-flex xs6>
     <div class="song-title" >
@@ -34,30 +35,29 @@
   </v-flex>
 <v-flex xs6>
 <img  class="album-image" :src="song.albumImage" 
-       :to="{name: 'song', params: {songId: song.id}}"
+ :to="{name: 'song', params: {songId: song.id}}"
       alternate="https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg"/>
 </v-flex>
    </v-layout>
   </div>
 </panel>
-
- </div> 
- </v-flex>
+</v-flex>
 </v-layout>
 </template>
 <script>
 import SongsService from '@/services/SongsService'
 import Panel from '@/components/Panel'
-//import SearchSong from '@/components/ViewSong/SearchSong'
+import SearchSong from '@/components/ViewSong/SearchSong'
 export default {
 components: { 
-  Panel//,
- // SearchSong
+  Panel,
+  SearchSong
   }, 
   data () {
     return {
       songs: null,
       page: 1
+      
     }
   },
   Props: {
@@ -96,6 +96,7 @@ font-size:small
 }
 .album-image {
 width: 80%;
+height: 150px;
 margin: 0 auto;
 }
 h1, h2 {

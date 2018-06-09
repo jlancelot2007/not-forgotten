@@ -6,7 +6,6 @@ export default {
              params: {
                  search: search
              }
-
             }
          )
     },

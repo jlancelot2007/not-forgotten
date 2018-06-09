@@ -4,7 +4,8 @@ Song,
 User,
 Tribute,
 Bookmark,
-Comment
+Comment,
+Tributelink
 
 } = require('../src/models')
 
@@ -14,6 +15,7 @@ const tributes = require('./tributes.json')
 const comments = require('./comments.json')
 const users = require('./users.json')
 const bookmarks = require('./bookmarks.json')
+const tributelinks = require('./tributelinks.json')
 
 sequelize.sync({force: true})
     .then(async function (){
@@ -32,10 +34,20 @@ sequelize.sync({force: true})
                      Tribute.create(tribute)
                  })
               ),
+              await Promise.all(
+                comments.map(comment => {
+                     Comment.create(comment)
+                 })
+              ),
              await Promise.all(
                bookmarks.map(bookmark => {
                     Bookmark.create(bookmark)
                 })
-             )
+             ),
+             await Promise.all(
+                tributelinks.map(tributelink => {
+                     Tributelink.create(tributelink)
+                 })
+              )
 
     })

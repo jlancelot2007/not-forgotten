@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
 import {sync} from 'vuex-router-sync'
+import createPersistedState from 'vuex-persistedstate'
 import 'vuetify/dist/vuetify.min.css'
 import store from '@/store/store'
 import * as VueGoogleMaps from "vue2-google-maps";

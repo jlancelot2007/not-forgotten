@@ -67,6 +67,7 @@ export default {
         name: 'songs'
       })
       console.log("Logged in success");
+     console.log(this.$store.state.user.id)
       } catch (error) {
         this.error = error.response.data.error;
       }
