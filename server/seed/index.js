@@ -6,7 +6,6 @@ Tribute,
 Bookmark,
 Comment,
 Tributelink
-
 } = require('../src/models')
 
 const Promise = require('bluebird')

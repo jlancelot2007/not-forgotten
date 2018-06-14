@@ -8,7 +8,7 @@
  <router-link slot="action"
  :to="{name: 'songs-create'}">
    <v-btn 
-   class="cyan accent-2"
+   class="purple darken-4 accent-2"
     dark absolute medium 
     right middle fab>
       <v-icon >add</v-icon>
@@ -30,7 +30,7 @@
         <div class="song-genre">
  {{song.genre}}
     </div>
-    <v-btn dark class="cyan"
+    <v-btn dark class="purple lighten-4"
     :to="{name: 'song', params: {songId: song.id}}">View Song</v-btn>
   </v-flex>
 <v-flex xs6>

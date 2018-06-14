@@ -1,0 +1,2 @@
+INSERT INTO bookmarks ( songId, userId, createdAt, updatedAt ) 
+values (7,1,date(), Date())

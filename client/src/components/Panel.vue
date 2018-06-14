@@ -2,7 +2,7 @@
   <v-layout column>
     <v-flex xs10 offset-xs1>
   <div class="white elevation-2" light >
-    <v-toolbar flat dense class="cyan" dark>
+    <v-toolbar flat dense class="purple darken-4" dark>
       <v-toolbar-title>{{title}}</v-toolbar-title>
           <slot name="action" >
           </slot>

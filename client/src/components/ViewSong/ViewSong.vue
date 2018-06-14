@@ -2,7 +2,7 @@
   <v-layout>
   <v-flex xs12>  
 <v-tabs xs12 sm6
-  color="cyan"
+  color="purple darken-4"
   dark
   slider-color="yellow"
   grow
@@ -35,27 +35,41 @@
         <div class="song-genre">
  {{song.genre}}
     </div>
-    <v-btn dark class="cyan"
+    <v-btn dark class="purple lighten-4"
     :to="{name: 'song-edit', params: {songId: song.id}}">Edit Song</v-btn>
 
         <v-btn dark 
-               class="cyan"
-               v-if="isUserLoggedIn && !bookmark"
+               class="purple lighten-4"
+               v-if="isUserLoggedIn && !this.isBookmarked"
                @click="setAsBookmark" 
-               Set As Bookmark
+          
                >Bookmark Song
         </v-btn>
-        <v-btn dark class="cyan"
-                v-if="isUserLoggedIn && bookmark"
+        <v-btn dark class="purple lighten-4"
+                v-if="isUserLoggedIn && this.isBookmarked"
                @click="unsetAsBookmark" 
-               Unset As Bookmark
+          
                >Unmark Song</v-btn>
     </v-card>
   </v-tab-item>
-  <v-tab-item>
-    <v-card flat>
-      <v-card-text>Contents forFavourites2 go here</v-card-text>
-    </v-card>
+  <v-tab-item> 
+<v-flex>
+<template>
+   <v-data-table
+    :headers="headers"
+    :pagination.sync="pagination"
+    :items="bookmarks"
+    hide-actions
+    class="elevation-1"
+  >
+    <template slot="items" slot-scope="props">
+      <td class="text-xs-left">{{ props.item.title }}</td>
+      <td class="text-xs-left">{{ props.item.artist }}</td>
+
+    </template>
+  </v-data-table>
+</template>
+</v-flex>
   </v-tab-item>  
   <v-tab-item>
     <v-card flat >
@@ -92,19 +106,44 @@ import VueYouTube from 'vue-youtube'
 import {mapState} from 'vuex'
 import Panel from '@/components/Panel'
 import BookmarksService from '@/services/BookmarksService'
+//import SongBookmarks from '@/components/viewsong/SongBookmarks'
 
 export default {
+components: { 
+ // SongBookmarks
+  },
 //  props: [
  //   song
 //  ],
   data () {
     return {
+             headers: [
+        {
+          text: 'Song Title',
+          value: 'title',
+          align: 'left'
+        },
+        {
+          text: 'Artist',
+          value: 'artist',
+          align: 'left'
+        }
+      ],
+      pagination: 
+        {
+          sortBy: 'date',
+          descending: true
+        },
+      bookmarks: [
+
+      ],
       song: {},
       playerVars: {
         autoplay: 0
       },
-      isBookmarked: false,
-      bookmark: null
+      isBookmarked: null,
+      bookmark: null,
+
     }
   },
 watch: {
@@ -114,13 +153,16 @@ watch: {
    }
 try {
    const songId = this.$store.state.route.params.songId
-  
+  // this.isBookmarked = null
    this.bookmark = (await BookmarksService.index({
-      songId: this.$store.state.route.params.songId,
-     userId: this.$store.state.user.id
+      songId: this.songId,
+     userId: this.user.id
    })).data
-   
-   console.log('bookmark', this.Bookmark)
+
+  // this.isBookmarked = !!bookmark
+     this.isBookmarked = this.bookmark.id
+console.log(this.isBookmarked)
+
   } catch (err) {
     console.log(err)
   }
@@ -128,34 +170,39 @@ try {
 },
 computed: {
    ...mapState([
-     'isUserLoggedIn'
+     'isUserLoggedIn',
+     'user'
    ])
 },
 async  mounted () {
    this.song = (await SongsService.show(this.$store.state.route.params.songId)).data
-
-  },
+   
+     if (!this.isUserLoggedIn) {
+        this.bookmark = (await BookmarksService.index({
+        songId: this.songId,
+        userId: this.user.id
+   })).data
+   console.log(bookmark)
+   }
+},
 methods: {
   async setAsBookmark() {
     try {
      this.bookmark = await BookmarksService.post({
-       songId:  this.$store.state.route.params.songId,
-       userId: this.$store.state.user.id
-       
+       songId:  this.song.id,
+       userId: this.user.id
      })
+this.isBookmarked = this.bookmark.id
     } catch (err)  {
       console.log(err)
-       console.log(this.song.id) 
-      console.log(this.$store.state.user.id)
+       console.log(this.song.id, this.user.id)
     }
-           console.log(this.song.id) 
-           console.log('bookmark hiy')
-      console.log(this.$store.state.user.id)
+ 
   },
   async unsetAsBookmark() {
     try {
       await BookmarksService.delete(this.bookmark.id)
-      this.bookmark = null
+      this.isBookmarked = null
     } catch (err)  {
       console.log(err)
     }
@@ -183,6 +230,6 @@ methods: {
 }
 .album-image {
   height: 300px;
-  width: 300px;
+  width: 100%;
 }
 </style>

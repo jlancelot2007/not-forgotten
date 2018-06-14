@@ -1,10 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
-    const Bookmark = sequelize.define('Bookmark', {})
+    const Bookmark = sequelize.define('Bookmark', {
 
-    Bookmark.associate = function (models){
-        Bookmark.belongsTo(models.User)
-        Bookmark.belongsTo(models.Song)
-    }
+        songId: { type: DataTypes.INTEGER},
+        userId: {type: DataTypes.INTEGER }
 
+    })
     return Bookmark
 }
